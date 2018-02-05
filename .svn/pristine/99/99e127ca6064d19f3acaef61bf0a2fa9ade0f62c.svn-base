@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+
+
+	
+
+
+</h:head>
+
+
+<h:form id="form1">
+
+    <p:panel header="Validate">
+    
+        <p:messages autoUpdate="true"/>
+ 
+        <h:panelGrid id="grid" columns="4" cellpadding="5">
+            <h:outputLabel for="name" value="Query:" style="font-weight:bold"/>                    
+            <p:inputText id="name" value="#{lodBean.text}" required="true" label="Name"/>
+            <p:message for="name" />
+            
+            <p:commandButton value="Search" ajax="false" actionListener="#{lodBean.searchLod(lodBean.text)}" icon="ui-icon-check" validateClient="true" style="margin-right:10px"/>
+        </h:panelGrid>
+ 
+        
+        
+    </p:panel>
+
+
+	 <p:panel id="panelTable" header="Subject: #{lodBean.subject}" >   
+
+	<p:dataTable id="empT" value="#{lodBean.resourceViews}" var="resourceView"  >
+		<p:column>
+			<f:facet name="header">
+				<h:outputText value="Semantic Link"></h:outputText>
+			</f:facet>
+			<h:outputText value="#{resourceView.property}"></h:outputText>
+		</p:column>
+		<p:column>
+			<f:facet name="header">
+				<h:outputText value="Resource"></h:outputText>
+			</f:facet>
+				          
+		    <p:commandLink id="najax"    update="empT form1:panelTable" action="#{lodBean.getRelatedResources}" ajax="true" > 
+		        <h:outputText  value="#{resourceView.object}" />
+		         <f:param name="resourceUri" value="#{resourceView.object}" />
+		    </p:commandLink>
+								
+		</p:column>
+	</p:dataTable>
+	
+	</p:panel>
+	
+</h:form>	
+	
+
+</html>
